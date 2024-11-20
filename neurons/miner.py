@@ -96,7 +96,14 @@ class Miner(BaseNeuron):
         # Return models the miner is running
         #
 
-        return []
+        return [
+            "NousResearch/Meta-Llama-3.1-8B-Instruct",
+            "NTQAI/Nxcode-CQ-7B-orpo",
+            "deepseek-ai/deepseek-coder-33b-instruct",
+            "gryphe/mythomax-l2-13b",
+            "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+            "NTQAI/Nxcode-CQ-7B-orpo",
+        ]
 
     async def determine_epistula_version_and_verify(self, request: Request):
         version = request.headers.get("Epistula-Version")
