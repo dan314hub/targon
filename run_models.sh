@@ -26,7 +26,7 @@ for model in "${models[@]}"; do
 
     # Start the new server
     echo "Starting model: $model on port $port"
-    pm2 start vllm --name "$server_name" --interpreter python3 -- serve "$model" --dtype auto --api-key $VLLM_API_KEY --port $port --tensor-parallel-size 1
+    pm2 start vllm --name "$server_name" --interpreter python3 -- serve "$model" --dtype auto --api-key $VLLM_API_KEY --port $port --tensor-parallel-size 4
     
     # Increment port for the next server
     ((port++))
