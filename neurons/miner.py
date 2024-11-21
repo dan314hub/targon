@@ -48,10 +48,10 @@ class Miner(BaseNeuron):
         ]
         
         self.model_url_map = {
-            "NousResearch/Meta-Llama-3.1-8B-Instruct": "http://10.1.1.41:8001",
-            "NTQAI/Nxcode-CQ-7B-orpo": "http://10.1.1.41:8002",
-            "deepseek-ai/deepseek-coder-33b-instruct": "http://10.1.1.41:8003",
-            "gryphe/mythomax-l2-13b": "http://127.0.0.1:8004",
+            "NousResearch/Meta-Llama-3.1-8B-Instruct": "http://10.1.1.41:8001/v1",
+            "NTQAI/Nxcode-CQ-7B-orpo": "http://10.1.1.41:8002/v1",
+            "deepseek-ai/deepseek-coder-33b-instruct": "http://10.1.1.41:8003/v1",
+            "gryphe/mythomax-l2-13b": "http://127.0.0.1:8004/v1",
             # "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF": "http://127.0.0.1:8005",
         }
 
