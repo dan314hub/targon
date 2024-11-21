@@ -38,6 +38,22 @@ class Miner(BaseNeuron):
         assert self.config.netuid
         assert self.config.logging
         assert self.config.model_endpoint
+        
+        self.models = [
+            "NousResearch/Meta-Llama-3.1-8B-Instruct",
+            "NTQAI/Nxcode-CQ-7B-orpo",
+            "deepseek-ai/deepseek-coder-33b-instruct",
+            "gryphe/mythomax-l2-13b",
+            # "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
+        ]
+        
+        self.model_url_map = {
+            "NousResearch/Meta-Llama-3.1-8B-Instruct": "http://10.1.1.41:8001",
+            "NTQAI/Nxcode-CQ-7B-orpo": "http://10.1.1.41:8002",
+            "deepseek-ai/deepseek-coder-33b-instruct": "http://10.1.1.41:8003",
+            "gryphe/mythomax-l2-13b": "http://127.0.0.1:8004",
+            # "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF": "http://127.0.0.1:8005",
+        }
 
         # Register log callback
         self.block_callbacks.append(self.log_on_block)
@@ -57,8 +73,15 @@ class Miner(BaseNeuron):
             "\u2713",
             f"Getting Chat Completion request from {request.headers.get('Epistula-Signed-By', '')[:8]}!",
         )
+        
+        body = await request.json()
+        model = body.get("model")
+        
+        url = self.model_url_map.get(model, "")
+        print(f"Model endpoint: {url}")
+        
         req = self.client.build_request(
-            "POST", "/chat/completions", content=await request.body()
+            "POST", f"{url}/chat/completions", content=await request.body()
         )
         r = await self.client.send(req, stream=True)
         return StreamingResponse(
@@ -70,8 +93,15 @@ class Miner(BaseNeuron):
             "\u2713",
             f"Getting Completion request from {request.headers.get('Epistula-Signed-By', '')[:8]}!",
         )
+        
+        body = await request.json()
+        model = body.get("model")
+        
+        url = self.model_url_map.get(model, "")
+        print(f"Model endpoint: {url}")
+        
         req = self.client.build_request(
-            "POST", "/completions", content=await request.body()
+            "POST", f"{url}/completions", content=await request.body()
         )
         r = await self.client.send(req, stream=True)
         return StreamingResponse(
@@ -96,14 +126,7 @@ class Miner(BaseNeuron):
         # Return models the miner is running
         #
 
-        return [
-            "NousResearch/Meta-Llama-3.1-8B-Instruct",
-            "NTQAI/Nxcode-CQ-7B-orpo",
-            "deepseek-ai/deepseek-coder-33b-instruct",
-            "gryphe/mythomax-l2-13b",
-            "nvidia/Llama-3.1-Nemotron-70B-Instruct-HF",
-            "NTQAI/Nxcode-CQ-7B-orpo",
-        ]
+        return self.models
 
     async def determine_epistula_version_and_verify(self, request: Request):
         version = request.headers.get("Epistula-Version")
