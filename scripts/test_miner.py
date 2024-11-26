@@ -6,10 +6,9 @@ import openai
 from openai.types.chat import ChatCompletionMessageParam
 from neurons.validator import Validator
 from targon.epistula import generate_header
-from targon.protocol import Endpoints
 
 
-MINER_UID = -1
+MINER_UID = 36
 
 messages: List[ChatCompletionMessageParam] = [
     {"role": "system", "content": "You are a helpful assistant."},
@@ -36,7 +35,7 @@ def main():
         axon_info = validator.metagraph.axons[MINER_UID]
         miner = openai.OpenAI(
             base_url=f"http://{axon_info.ip}:{axon_info.port}/v1",
-            api_key="sn4",
+            api_key="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",
             max_retries=0,
             timeout=Timeout(12, connect=5, read=5),
             http_client=openai.DefaultHttpxClient(
@@ -67,22 +66,22 @@ def main():
             )
             print(choice.delta.content, token_id)
         print(
-            validator.check_tokens({"messages": messages[:20]}, tokens, Endpoints.CHAT)
+            validator.check_tokens({"messages": messages[:20]}, tokens, "CHAT")
         )
         print(
-            validator.check_tokens({"messages": messages[:20]}, tokens, Endpoints.CHAT)
+            validator.check_tokens({"messages": messages[:20]}, tokens, "CHAT")
         )
         print(
-            validator.check_tokens({"messages": messages[:20]}, tokens, Endpoints.CHAT)
+            validator.check_tokens({"messages": messages[:20]}, tokens, "CHAT")
         )
         print(
-            validator.check_tokens({"messages": messages[:20]}, tokens, Endpoints.CHAT)
+            validator.check_tokens({"messages": messages[:20]}, tokens, "CHAT")
         )
-        print(validator.check_tokens({"messages": messages}, tokens, Endpoints.CHAT))
-        print(validator.check_tokens({"messages": messages}, tokens, Endpoints.CHAT))
-        print(validator.check_tokens({"messages": messages}, tokens, Endpoints.CHAT))
-        print(validator.check_tokens({"messages": messages}, tokens, Endpoints.CHAT))
-        print(validator.check_tokens({"messages": messages}, tokens, Endpoints.CHAT))
+        print(validator.check_tokens({"messages": messages}, tokens, "CHAT"))
+        print(validator.check_tokens({"messages": messages}, tokens, "CHAT"))
+        print(validator.check_tokens({"messages": messages}, tokens, "CHAT"))
+        print(validator.check_tokens({"messages": messages}, tokens, "CHAT"))
+        print(validator.check_tokens({"messages": messages}, tokens, "CHAT"))
     except Exception as e:
         print(e)
         print(traceback.format_exc())

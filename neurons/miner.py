@@ -65,7 +65,7 @@ class Miner(BaseNeuron):
         bt.logging.info(self.config.model_endpoint)
         self.client = httpx.AsyncClient(
             base_url="",
-            headers={"Authorization": f"Bearer {self.config.api_key}"},
+            headers={"Authorization": f"Bearer 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"},
         )
 
     async def create_chat_completion(self, request: Request):

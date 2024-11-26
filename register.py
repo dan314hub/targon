@@ -17,12 +17,6 @@ def register():
         child = pexpect.spawn(REGISTER_COMMAND, encoding='utf-8')
         child.logfile = sys.stdout
 
-        # Step 1 is implicit in spawning the command
-
-        # Step 2: Wait 2 seconds then press enter
-        time.sleep(2)
-        child.sendline('')  # Simulate pressing Enter
-
         # Check for insufficient balance before proceeding
         index = child.expect([INSUFFICIENT_BALANCE_MESSAGE, pexpect.TIMEOUT, pexpect.EOF], timeout=10)
         if index == 0:
@@ -30,20 +24,19 @@ def register():
             time.sleep(4)
             continue  # Restart the registration process
         
-        # Step 3: Wait 2 seconds press y
-        time.sleep(7)
+        # Step 1: Wait 2 seconds press y
+        time.sleep(2)
         child.sendline('y')
-        time.sleep(1)
 
-        # Step 4: Wait 3 seconds enter password (1 more second delay as requested)
-        time.sleep(13)
+        # Step 2: Wait 3 seconds enter password (1 more second delay as requested)
+        time.sleep(3)
         child.sendline(PASSWORD)
 
-        # Step 5: Wait 4 seconds press y (2 more second delay for the y after password as requested)
+        # Step 3: Wait 4 seconds press y (2 more second delay for the y after password as requested)
         time.sleep(7)
         child.sendline('y')
 
-        # Step 6: Wait for either Failed or Success
+        # Step 4: Wait for either Failed or Success
         index = child.expect([FAILED_MESSAGE, SUCCESS_MESSAGE, pexpect.TIMEOUT, pexpect.EOF], timeout=90)
         if index == 1:
             print("Registration successful!")
