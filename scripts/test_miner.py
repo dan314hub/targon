@@ -31,7 +31,17 @@ def create_header_hook(hotkey, axon_hotkey):
 
 def main():
     try:
-        validator = Validator(load_dataset=False)
+        config = {
+            "subtensor": {
+                "network": "test",
+            },
+            "wallet": {
+                "name": "miner_test",
+                "hotkey": "miner_test_hotkey0"  
+            },
+            "netuid": 40
+        }
+        validator = Validator(config)
         axon_info = validator.metagraph.axons[MINER_UID]
         miner = openai.OpenAI(
             base_url=f"http://{axon_info.ip}:{axon_info.port}/v1",
